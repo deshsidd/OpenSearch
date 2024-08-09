@@ -28,7 +28,7 @@ public class OTelMetricsExporterFactoryTests extends OpenSearchTestCase {
         Settings settings = Settings.builder()
             .put(
                 OTelTelemetrySettings.OTEL_METRICS_EXPORTER_CLASS_SETTING.getKey(),
-                "io.opentelemetry.exporter.logging.OtlpJsonLoggingMetricExporter"
+                "io.opentelemetry.exporter.logging.otlp.OtlpJsonLoggingMetricExporter"
             )
             .build();
         MetricExporter metricExporter = OTelMetricsExporterFactory.create(settings);
