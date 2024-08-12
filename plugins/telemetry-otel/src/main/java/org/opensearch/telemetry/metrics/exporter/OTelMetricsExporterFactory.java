@@ -14,6 +14,7 @@ import org.opensearch.SpecialPermission;
 import org.opensearch.common.settings.Settings;
 import org.opensearch.telemetry.OTelTelemetrySettings;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
@@ -66,10 +67,12 @@ public class OTelMetricsExporterFactory {
                     }
                 }
                 try {
-                    return (MetricExporter) MethodHandles.publicLookup()
-                        .findStatic(exporterProviderClass, methodName, MethodType.methodType(exporterProviderClass))
-                        .asType(MethodType.methodType(MetricExporter.class))
-                        .invokeExact();
+                    MethodHandles.Lookup lookup = MethodHandles.publicLookup();
+                    MethodType methodType = MethodType.methodType(MetricExporter.class);
+
+                    // Look up the 'create' method with no parameters
+                    MethodHandle handle = lookup.findStatic(exporterProviderClass, methodName, methodType);
+                    return (MetricExporter) handle.invokeExact();
                 } catch (Throwable e) {
                     if (e.getCause() instanceof NoSuchMethodException) {
                         throw new IllegalStateException("No create factory method exist in [" + exporterProviderClass.getName() + "]");

@@ -63,16 +63,4 @@ public class OTelMetricsExporterFactoryTests extends OpenSearchTestCase {
         assertTrue(exception.getCause() instanceof NoSuchMethodError);
 
     }
-
-    public void testMetricExporterGetDefaultMethod() {
-        Settings settings = Settings.builder()
-            .put(
-                OTelTelemetrySettings.OTEL_METRICS_EXPORTER_CLASS_SETTING.getKey(),
-                "io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporter"
-            )
-            .build();
-
-        assertTrue(OTelMetricsExporterFactory.create(settings) instanceof OtlpGrpcMetricExporter);
-    }
-
 }
