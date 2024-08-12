@@ -8,12 +8,11 @@
 
 package org.opensearch.telemetry.metrics.exporter;
 
-import io.opentelemetry.exporter.logging.otlp.OtlpJsonLoggingMetricExporter;
 import org.opensearch.common.settings.Settings;
 import org.opensearch.telemetry.OTelTelemetrySettings;
 import org.opensearch.test.OpenSearchTestCase;
 
-import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporter;
+import io.opentelemetry.exporter.logging.otlp.OtlpJsonLoggingMetricExporter;
 import io.opentelemetry.sdk.metrics.export.MetricExporter;
 
 public class OTelMetricsExporterFactoryTests extends OpenSearchTestCase {

@@ -18,8 +18,6 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -62,8 +60,12 @@ public class OTelMetricsExporterFactory {
             String getDefaultMethod = "getDefault";
 
             Method[] methods = exporterProviderClass.getMethods();
-            logger.info("Methods available in " + exporterProviderClass.getName() + ": " +
-                Arrays.stream(methods).map(Method::getName).collect(Collectors.joining(", ")));
+            logger.info(
+                "Methods available in "
+                    + exporterProviderClass.getName()
+                    + ": "
+                    + Arrays.stream(methods).map(Method::getName).collect(Collectors.joining(", "))
+            );
 
             for (Method m : exporterProviderClass.getMethods()) {
                 if (m.getName().equals(getDefaultMethod)) {
