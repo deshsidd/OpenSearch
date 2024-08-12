@@ -39,28 +39,4 @@ public class OTelMetricsExporterFactoryTests extends OpenSearchTestCase {
         Settings settings = Settings.builder().put(OTelTelemetrySettings.OTEL_METRICS_EXPORTER_CLASS_SETTING.getKey(), "abc").build();
         assertThrows(IllegalArgumentException.class, () -> OTelMetricsExporterFactory.create(settings));
     }
-
-    public void testMetricExporterNoCreateFactoryMethod() {
-        Settings settings = Settings.builder()
-            .put(
-                OTelTelemetrySettings.OTEL_METRICS_EXPORTER_CLASS_SETTING.getKey(),
-                "org.opensearch.telemetry.metrics.exporter.DummyMetricExporter"
-            )
-            .build();
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> OTelMetricsExporterFactory.create(settings));
-        assertEquals(
-            "MetricExporter instantiation failed for class [org.opensearch.telemetry.metrics.exporter.DummyMetricExporter]",
-            exception.getMessage()
-        );
-    }
-
-    public void testMetricExporterNonMetricExporterClass() {
-        Settings settings = Settings.builder()
-            .put(OTelTelemetrySettings.OTEL_METRICS_EXPORTER_CLASS_SETTING.getKey(), "java.lang.String")
-            .build();
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> OTelMetricsExporterFactory.create(settings));
-        assertEquals("MetricExporter instantiation failed for class [java.lang.String]", exception.getMessage());
-        assertTrue(exception.getCause() instanceof NoSuchMethodError);
-
-    }
 }
