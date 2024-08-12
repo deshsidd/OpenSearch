@@ -42,6 +42,45 @@ dependencies {
   testImplementation "io.opentelemetry:opentelemetry-sdk-testing:${versions.opentelemetry}"
 }
 
+task dependencyLicenses1 {
+  doLast {
+    def licenseFile = file("licenses/opentelemetry-exporter-logging-otlp-LICENSE.txt")
+    if (licenseFile.exists()) {
+      println "License file found at: ${licenseFile.absolutePath}"
+    } else {
+      println "License file not found."
+    }
+  }
+}
+
+task debugLicenseFiles {
+  doLast {
+    def dir = file("licenses")
+    def files = dir.listFiles()
+    if (files) {
+      files.each { file ->
+        println "Found file: ${file.name}"
+      }
+    } else {
+      println "No files found in directory: ${dir.absolutePath}"
+    }
+  }
+}
+
+task dependencyLicenses2 {
+  doLast {
+    def dir = file("licenses")
+    def files = dir.listFiles()
+    files.each { file ->
+      println "Checking file: ${file.name}"
+      if (file.name.contains("opentelemetry-exporter-logging-otlp")) {
+        println "File content: ${file.text}"
+      }
+    }
+  }
+}
+
+
 
 thirdPartyAudit {
   ignoreViolations(
